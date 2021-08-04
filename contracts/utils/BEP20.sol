@@ -262,6 +262,13 @@ contract BEP20 is Context, IBEP20, Ownable {
     ) internal virtual {
         require(sender != address(0), "BEP20: transfer from the zero address");
         require(recipient != address(0), "BEP20: transfer to the zero address");
+        /**
+         * @dev anti whale
+         */
+        require(
+            amount <= ((totalSupply() / 100) * 5),
+            "BEP20: Price impact too high"
+        );
 
         uint256 fee = (amount / 100) * 5; // Calculate 5% fee
 
